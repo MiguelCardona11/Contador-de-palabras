@@ -5,29 +5,29 @@ class Archivo:
         self._nombreArchivo = nombreArchivo
         self._palabra = palabra
     
-    def contarPalabra(self, ruta, nombreArchivo, palabra):
+    def contarPalabra(self):
         """
         Se elije el método para buscar la cantidad de veces qye aparece la palabra según la extensión
         """
-        nombre = nombreArchivo.split('.')
+        nombre = self._nombreArchivo.split('.')
         extension = nombre[-1]
         
         if (extension == 'txt'):
-            self.contarPalabraTxt(ruta, nombreArchivo, palabra)
+            return self.contarPalabraTxt()
             
-    def contarPalabraTxt(self, ruta, nombreArchivo, palabra):
+    def contarPalabraTxt(self):
         """
         Buscar cantidad de veces que aparece una palabra en un archivo .txt
         """
-        ruta = ruta+'/'+nombreArchivo
+        ruta = self._ruta+'/'+self._nombreArchivo
         with open(ruta, 'r', encoding='utf-8') as archivo:
             contenido = archivo.read()
 
         contenido = contenido.lower()
-        palabra = palabra.lower()
+        palabra = self._palabra.lower()
 
         cantidad = contenido.count(palabra)
-        return cantidad
+        return self._nombreArchivo+'  '+str(cantidad)+' veces'
 
 
         
@@ -35,6 +35,6 @@ class Archivo:
 
 
 
-archivotest = Archivo('C:/carpetapadre/subcarpeta/carpeta1', 'Texto1.txt', 'arar')
+#archivotest = Archivo('C:/carpetapadre/subcarpeta/carpeta1', 'Texto1.txt', 'arar')
 
-#archivotest.contarPalabra(archivotest._ruta, archivotest._nombreArchivo, archivotest._palabra)
+#print(archivotest.contarPalabra())

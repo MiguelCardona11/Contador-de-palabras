@@ -1,5 +1,5 @@
 import os
-from archivo import *
+from archivo import Archivo
 
 # C:/carpetapadre/subcarpeta/carpeta1
 
@@ -9,15 +9,20 @@ class Carpeta:
         self._ruta = ruta
         self._palabra = palabra
                 
-    def obtenerArchivosLegibles(self, ruta):
-        with os.scandir(ruta) as ficheros:
+    def obtenerArchivosLegibles(self):
+        with os.scandir(self._ruta) as ficheros:
             ficheros = [fichero.name for fichero in ficheros if fichero.is_file() and 
                         (fichero.name.endswith('.txt') or fichero.name.endswith('.json') or fichero.name.endswith('.xml') or fichero.name.endswith('.csv'))]
         return ficheros
     
-    #def escanearArchivos(self, ruta):
-        #archivos = self.obtenerArchivosLegibles(ruta)
-        #for i in archivos:
+    
+    def escanearArchivos(self):
+        archivos = self.obtenerArchivosLegibles()
+        for i in range(len(archivos)):
+            archivo = Archivo(self._ruta, archivos[i], self._palabra)
+            print (archivo.contarPalabra())
+
+        
             
             
             
@@ -32,9 +37,11 @@ class Carpeta:
 
 # ZONA DE PRUEBAS
 
-carpeta_test = Carpeta('carpeta1','C:/carpetapadre/subcarpeta/carpeta1', 'piojo')
+carpeta_test = Carpeta('carpeta1','C:/carpetapadre/subcarpeta/carpeta1', 'arar')
 
-carpeta_test.escanearArchivos(carpeta_test._ruta)
+carpeta_test.escanearArchivos()
+
+# carpeta_test.obtenerArchivosLegibles()
         
 
 

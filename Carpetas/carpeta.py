@@ -1,17 +1,19 @@
 import os
 
-# C:\carpetapadre\subcarpeta\carpeta1
+# C:/carpetapadre/subcarpeta/carpeta1
 
 class Carpeta:
     def __init__(self, nombreCarpeta, ruta, palabra):
         self._nombreCarpeta = nombreCarpeta
         self._ruta = ruta
         self._palabra = palabra
-        
-    def contenidoCarpeta(self, ruta):
+                
+    def archivosLegibles(self, ruta):
         with os.scandir(ruta) as ficheros:
-            for fichero in ficheros:
-                print(fichero.name)
+            ficheros = [fichero.name for fichero in ficheros if fichero.is_file() and 
+                        (fichero.name.endswith('.txt') or fichero.name.endswith('.json') or fichero.name.endswith('.xml') or fichero.name.endswith('.csv'))]
+
+            
 
     
 
@@ -25,9 +27,9 @@ class Carpeta:
 
 # ZONA DE PRUEBAS
 
-carpeta_test = Carpeta('carpeta1','C:\carpetapadre\subcarpeta\carpeta1', 'piojo')
+carpeta_test = Carpeta('carpeta1','C:/carpetapadre/subcarpeta/carpeta1', 'piojo')
 
-carpeta_test.contenidoCarpeta(carpeta_test._ruta)
+carpeta_test.archivosLegibles(carpeta_test._ruta)
         
 
 

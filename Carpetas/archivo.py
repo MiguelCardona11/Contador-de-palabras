@@ -1,3 +1,4 @@
+import re
 
 class Archivo:
     def __init__(self, ruta, nombreArchivo, palabra):
@@ -21,12 +22,12 @@ class Archivo:
         """
         ruta = self._ruta+'/'+self._nombreArchivo
         with open(ruta, 'r', encoding='utf-8') as archivo:
-            contenido = archivo.read()
+            contenido = archivo.read().lower()
 
-        contenido = contenido.lower()
-        palabra = self._palabra.lower()
-
-        cantidad = contenido.count(palabra)
+        # Convertir el contenido en una lista de palabras
+        palabras = re.findall(r'\b\w+\b', contenido)
+        cantidad = palabras.count(self._palabra.lower())
+        
         return self._nombreArchivo+'  '+str(cantidad)+' veces'
 
 

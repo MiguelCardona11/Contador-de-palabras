@@ -1,4 +1,6 @@
 import re
+import json
+import csv
 
 class Archivo:
     def __init__(self, ruta, nombreArchivo, palabra):
@@ -15,6 +17,9 @@ class Archivo:
         
         if (extension == 'txt'):
             return self.contarPalabraTxt()
+        
+        elif (extension == 'json'):
+            return self.contarPalabraJson()
             
     def contarPalabraTxt(self):
         """
@@ -29,7 +34,18 @@ class Archivo:
         cantidad = palabras.count(self._palabra.lower())
         return cantidad
     
-
+    def contarPalabraJson(self):
+        """
+        Devuelve la cantidad de veces que aparece una palabra en un archivo .json
+        """
+        ruta = self._ruta+'/'+self._nombreArchivo
+        
+        with open(ruta, 'r', encoding='utf-8') as archivo:
+            contenido = json.load(archivo)
+        
+        palabras = re.findall(r'\b\w+\b', str(contenido))
+        cantidad = palabras.count(self._palabra.lower())
+        return cantidad
 
 
         
@@ -37,6 +53,6 @@ class Archivo:
 
 
 
-#archivotest = Archivo('C:/carpetapadre/subcarpeta/carpeta1', 'Texto1.txt', 'arar')
+#archivotest = Archivo('C:/carpetapadre/subcarpeta/carpeta1', 'cuento_corto.json', 'arar')
 
 #print(archivotest.contarPalabra())

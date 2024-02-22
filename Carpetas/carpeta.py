@@ -25,30 +25,37 @@ class Carpeta:
         """
         recorre un arreglo de archivos legibles y cuenta la cantidad de veces que se encuentra la palabra en cada archivo
         """
+        total = 0
         ruta_completa = self._ruta+'/'+self._nombreCarpeta
-        archivos = self.obtenerArchivosLegibles()
+        
+        try:
+            archivos = self.obtenerArchivosLegibles()
+        except FileNotFoundError:
+            print("La carpeta indicada no existe")
+            return
+        
+        if archivos == []:
+            print('No se encontraron archivos de texto en la carpeta "'+self._nombreCarpeta+'"')
+            return
+        
         for i in range(len(archivos)):
             archivo = Archivo(ruta_completa, archivos[i], self._palabra)
-            print (archivo.contarPalabra())
-
+            cantidadRepetitas = archivo.contarPalabra()
+            total = total + cantidadRepetitas 
+            print(archivo._nombreArchivo+'  '+str(cantidadRepetitas)+' veces')
+        print('Total:      '+str(total)+' veces')
         
             
             
             
 
-    
-
-
-
-
-
 
 
 # ZONA DE PRUEBAS
 
-carpeta_test = Carpeta('carpeta1','C:/carpetapadre/subcarpeta', 'arar')
+## carpeta_test = Carpeta('carpeta1','C:/carpetapadre/subcarpeta', 'arar')
 
-carpeta_test.escanearArchivos()
+## carpeta_test.escanearArchivos()
 
 # carpeta_test.obtenerArchivosLegibles()
         

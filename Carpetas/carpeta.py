@@ -53,9 +53,9 @@ class Carpeta:
 
 # ZONA DE PRUEBAS
 
-##carpeta_test = Carpeta('carpeta1','C:/carpetapadre/subcarpeta', 'arar')
+carpeta_test = Carpeta('carpeta1','C:/carpetapadre/subcarpeta', 'arar')
 
-##carpeta_test.escanearArchivos()
+carpeta_test.escanearArchivos()
 
 # carpeta_test.obtenerArchivosLegibles()
         

@@ -1,6 +1,7 @@
 import re
 import json
 import csv
+import xml.etree.ElementTree as ET
 
 class Archivo:
     def __init__(self, ruta, nombreArchivo, palabra):
@@ -23,6 +24,9 @@ class Archivo:
         
         elif (extension == 'csv'):
             return self.contarPalabraCsv()
+        
+        elif (extension == 'xml'):
+            return self.contarPalabraXml()
             
     def contarPalabraTxt(self):
         """
@@ -64,12 +68,25 @@ class Archivo:
         palabras = re.findall(r'\b\w+\b', str(contenido).lower())
         cantidad = palabras.count(self._palabra.lower())
         return cantidad
+    
+    def contarPalabraXml(self):
+        """
+        Devuelve la cantidad de veces que aparece una palabra en un archivo .xml
+        """
+        contenido = []
+        ruta = self._ruta+'/'+self._nombreArchivo
+        tree = ET.parse(ruta)
+        root = tree.getroot()
+        for elemento in root:
+            contenido.append(elemento.text)
+                   
+        palabras = re.findall(r'\b\w+\b', str(contenido).lower())
+        cantidad = palabras.count(self._palabra.lower())
+        return cantidad
 
         
 
 
-
-
-#archivotest = Archivo('C:/carpetapadre/subcarpeta/carpeta1', 'eggs.csv', 'arar')
+#archivotest = Archivo('C:/carpetapadre/subcarpeta/carpeta1', 'arroz.xml', 'arar')
 
 #print(archivotest.contarPalabra())

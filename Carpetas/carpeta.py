@@ -8,14 +8,14 @@ class Carpeta:
         self._nombreCarpeta = nombreCarpeta
         self._ruta = ruta
         self._palabra = palabra
+        self._rutaCompleta = self._ruta+'/'+self._nombreCarpeta
                 
     def obtenerArchivosLegibles(self):
         """
-        Recorrer carpeta de la ruta en busca de archivos de texto legibles por el programa.
-        devuelve un arreglo de los archivos encontrados.
+        Recorro carpeta de la ruta en busca de archivos de texto legibles por el programa.\n
+        Retorna un arreglo de los archivos encontrados.
         """
-        ruta_completa = self._ruta+'/'+self._nombreCarpeta
-        with os.scandir(ruta_completa) as ficheros:
+        with os.scandir(self._rutaCompleta) as ficheros:
             ficheros = [fichero.name for fichero in ficheros if fichero.is_file() and 
                         (fichero.name.endswith('.txt') or fichero.name.endswith('.json') or fichero.name.endswith('.xml') or fichero.name.endswith('.csv'))]
         return ficheros
@@ -26,7 +26,6 @@ class Carpeta:
         recorre un arreglo de archivos legibles y cuenta la cantidad de veces que se encuentra la palabra en cada archivo
         """
         total = 0
-        ruta_completa = self._ruta+'/'+self._nombreCarpeta
         
         try:
             archivos = self.obtenerArchivosLegibles()
@@ -39,7 +38,7 @@ class Carpeta:
             return
         
         for i in range(len(archivos)):
-            archivo = Archivo(ruta_completa, archivos[i], self._palabra)
+            archivo = Archivo(self._rutaCompleta, archivos[i], self._palabra)
             cantidadRepetitas = archivo.contarPalabra()
             total = total + cantidadRepetitas 
             print(archivo._nombreArchivo+'  '+str(cantidadRepetitas)+' veces')

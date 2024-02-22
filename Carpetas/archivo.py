@@ -8,10 +8,11 @@ class Archivo:
         self._ruta = ruta
         self._nombreArchivo = nombreArchivo
         self._palabra = palabra
+        self._rutaCompleta = self._ruta+'/'+self._nombreArchivo
     
     def contarPalabra(self):
         """
-        Se elije el método para buscar la cantidad de veces que aparece la palabra en el archivo según su extensión
+        Devuelve la cantidad de veces que aparece una palabra en un archivo de extension .txt, .json, .csv o .xml
         """
         nombre = self._nombreArchivo.split('.')
         extension = nombre[-1]
@@ -28,65 +29,61 @@ class Archivo:
         elif (extension == 'xml'):
             return self.contarPalabraXml()
             
-    def contarPalabraTxt(self):
+    
+    def contarCantidad(self, contenido):
         """
-        Devuelve la cantidad de veces que aparece una palabra en un archivo .txt
+        Convierto el contenido recibido a una lista de palabras completas definidas por límites de palabra (para solo contar palabras individuales).\n
+        Retorna la cuenta total de palabras encontradas en el texto del contenido.
         """
-        ruta = self._ruta+'/'+self._nombreArchivo
-        with open(ruta, 'r', encoding='utf-8') as archivo:
-            contenido = archivo.read()
-
-        # Convertir el contenido en una lista de palabras usando expresiones regulares para solo contar palabras individuales
         palabras = re.findall(r'\b\w+\b', str(contenido).lower())
         cantidad = palabras.count(self._palabra.lower())
         return cantidad
+    
+    def contarPalabraTxt(self):
+        """
+        Lee el archivo y devuelve la cantidad de veces que aparece una palabra en un archivo .txt
+        """
+        with open(self._rutaCompleta, 'r', encoding='utf-8') as archivo:
+            contenido = archivo.read()
+
+        return self.contarCantidad(contenido)
     
     def contarPalabraJson(self):
         """
-        Devuelve la cantidad de veces que aparece una palabra en un archivo .json
+        Lee el archivo y devuelve la cantidad de veces que aparece una palabra en un archivo .json
         """
-        ruta = self._ruta+'/'+self._nombreArchivo
-        
-        with open(ruta, 'r', encoding='utf-8') as archivo:
+        with open(self._rutaCompleta, 'r', encoding='utf-8') as archivo:
             contenido = json.load(archivo)
         
-        palabras = re.findall(r'\b\w+\b', str(contenido).lower())
-        cantidad = palabras.count(self._palabra.lower())
-        return cantidad
+        return self.contarCantidad(contenido)
     
     def contarPalabraCsv(self):
         """
-        Devuelve la cantidad de veces que aparece una palabra en un archivo .csv
+        Lee el archivo y devuelve la cantidad de veces que aparece una palabra en un archivo .csv
         """
         contenido = []
-        ruta = self._ruta+'/'+self._nombreArchivo
-        with open(ruta, newline='') as csvfile:
+        with open(self._rutaCompleta, newline='') as csvfile:
             lector = csv.reader(csvfile, delimiter=' ', quotechar='|')
             for fila in lector:
                 contenido.append(fila)
                 
-        palabras = re.findall(r'\b\w+\b', str(contenido).lower())
-        cantidad = palabras.count(self._palabra.lower())
-        return cantidad
+        return self.contarCantidad(contenido)
     
     def contarPalabraXml(self):
         """
-        Devuelve la cantidad de veces que aparece una palabra en un archivo .xml
+        Lee el archivo y devuelve la cantidad de veces que aparece una palabra en un archivo .xml
         """
         contenido = []
-        ruta = self._ruta+'/'+self._nombreArchivo
-        tree = ET.parse(ruta)
+        tree = ET.parse(self._rutaCompleta)
         root = tree.getroot()
         for elemento in root:
             contenido.append(elemento.text)
                    
-        palabras = re.findall(r'\b\w+\b', str(contenido).lower())
-        cantidad = palabras.count(self._palabra.lower())
-        return cantidad
+        return self.contarCantidad(contenido)
 
         
 
 
-#archivotest = Archivo('C:/carpetapadre/subcarpeta/carpeta1', 'arroz.xml', 'arar')
+#archivotest = Archivo('C:/carpetapadre/subcarpeta/carpeta1', 'Texto1.txt', 'arar')
 
 #print(archivotest.contarPalabra())

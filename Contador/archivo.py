@@ -4,6 +4,9 @@ import csv
 import xml.etree.ElementTree as ET
 
 class Archivo:
+    """
+    Clase para definir la ubicacion de un archivo de texto dentro del equipo, junto con una palabra a buscar
+    """
     def __init__(self, ruta, nombreArchivo, palabra):
         self._ruta = ruta
         self._nombreArchivo = nombreArchivo
@@ -80,10 +83,3 @@ class Archivo:
             contenido.append(elemento.text)
                    
         return self.contarCantidad(contenido)
-
-        
-
-
-#archivotest = Archivo('C:/carpetapadre/subcarpeta/carpeta1', 'Texto1.txt', 'arar')
-
-#print(archivotest.contarPalabra())

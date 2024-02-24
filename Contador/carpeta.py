@@ -1,9 +1,10 @@
 import os
 from archivo import Archivo
 
-# C:/carpetapadre/subcarpeta/carpeta1
-
 class Carpeta:
+    """
+    Clase para definir la Ubicacion de una carpeta dentro del equipo, junto con palabra a buscar
+    """
     def __init__(self, nombreCarpeta, ruta, palabra):
         self._nombreCarpeta = nombreCarpeta
         self._ruta = ruta
@@ -13,7 +14,7 @@ class Carpeta:
     def obtenerArchivosLegibles(self):
         """
         Recorro carpeta de la ruta en busca de archivos de texto legibles por el programa.\n
-        Retorna un arreglo de los archivos encontrados.
+        Retorna un arreglo de los nombres de los archivos encontrados.
         """
         with os.scandir(self._rutaCompleta) as ficheros:
             ficheros = [fichero.name for fichero in ficheros if fichero.is_file() and 
@@ -26,7 +27,6 @@ class Carpeta:
         recorre un arreglo de archivos legibles y cuenta la cantidad de veces que se encuentra la palabra en cada archivo
         """
         total = 0
-        
         try:
             archivos = self.obtenerArchivosLegibles()
         except FileNotFoundError:
@@ -43,20 +43,3 @@ class Carpeta:
             total = total + cantidadRepetitas 
             print(archivo._nombreArchivo+'  '+str(cantidadRepetitas)+' veces')
         print('Total:      '+str(total)+' veces')
-        
-            
-            
-            
-
-
-
-# ZONA DE PRUEBAS
-
-carpeta_test = Carpeta('carpeta1','C:/carpetapadre/subcarpeta', 'arar')
-
-carpeta_test.escanearArchivos()
-
-# carpeta_test.obtenerArchivosLegibles()
-        
-
-

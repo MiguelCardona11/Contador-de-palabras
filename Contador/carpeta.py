@@ -27,11 +27,7 @@ class Carpeta:
         recorre un arreglo de archivos legibles y cuenta la cantidad de veces que se encuentra la palabra en cada archivo
         """
         total = 0
-        try:
-            archivos = self.obtenerArchivosLegibles()
-        except FileNotFoundError:
-            print("La carpeta indicada no existe")
-            return
+        archivos = self.obtenerArchivosLegibles()
         
         if archivos == []:
             print('No se encontraron archivos de texto en la carpeta "'+self._nombreCarpeta+'"')
